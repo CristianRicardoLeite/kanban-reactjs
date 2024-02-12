@@ -1,18 +1,59 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+'use client'
 
-import TaskTable from '../components/taskTable';
 
-export default function Home() {
+import { useState, useEffect } from 'react';
+import TaskTable from '../components/TaskTable';
+import AddTaskForm from '../components/AddTaskForm';
+import Header from '@/src/components/header'
 
-  const fetchedTasks = [
-    { id: 1, task: "Task 1", status: "To Do", dueDate: "2023-01-01" },
-    { id: 2, task: "Task 2", status: "Doing", dueDate: "2023-02-01" },
-    { id: 3, task: "Task 3", status: "Ready", dueDate: "2023-03-01" },
-  ];
+import api from '../services/api'
+
+interface Task {
+  id: string;
+  name: string;
+  status: string;
+  dueDate: string;
+}
+
+function TaskManager() {
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await api.get('/tasks');
+        if (Array.isArray(response.data.data)) {
+          setTasks(response.data.data);
+        } else {
+          console.error("Formato de dados inesperado:", response.data);
+        }
+      } catch (error) {
+        console.error("Falha ao buscar tarefas:", error);
+      }
+    };
+
+    fetchTasks()
+  }, [])
+
+  const handleStatusChange = (taskId: string, newStatus: string) => {
+
+    const updatedTasks = tasks.map((task: Task) =>
+      task.id === taskId ? { ...task, status: newStatus } : task
+    );
+    setTasks(updatedTasks);
+  };
+
+  const handleTaskAdded = (newTask: Task) => {
+    setTasks([...tasks, newTask]);
+  };
 
   return (
     <div>
-      <TaskTable tasks={fetchedTasks} />
+      <Header />
+      <TaskTable tasks={tasks} onStatusChange={handleStatusChange} />
+      <AddTaskForm onTaskAdded={handleTaskAdded} />
     </div>
   );
 }
+
+export default TaskManager;

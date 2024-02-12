@@ -1,43 +1,64 @@
-// components/TaskTable.js
-function TaskTable({ tasks }) {
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import api from '../../services/api';
 
-  const tasksToDo = tasks.filter(task => task.status === 'To Do');
-  const tasksDoing = tasks.filter(task => task.status === 'Doing');
-  const tasksReady = tasks.filter(task => task.status === 'Ready');
+function TaskTable({ tasks, onStatusChange }) {
+
+  const getStatusOptions = (currentStatus) => {
+    const allStatuses = ["To Do", "Doing", "Ready"];
+    return allStatuses.filter(status => status !== currentStatus);
+  };
+
+
+  const updateTaskStatus = async (taskId, newStatus) => {
+    try {
+      const response = await api.put(`/tasks/${taskId}`, { status: newStatus });
+      console.log(response.data);
+      if (onStatusChange) onStatusChange(taskId, newStatus);
+    } catch (error) {
+      console.error("Erro ao atualizar o status da tarefa:", error);
+    }
+  };
+
+  const StatusDropdown = ({ currentStatus, taskId }) => {
+    const options = getStatusOptions(currentStatus);
+    return (
+      <DropdownButton
+        id={`dropdown-button-drop-${taskId}`}
+        drop="down"
+        variant="secondary"
+        title={`${currentStatus}`}
+      >
+        {options.map((status, index) => (
+          <Dropdown.Item
+            key={index}
+            eventKey={index}
+            onClick={() => updateTaskStatus(taskId, status)}>
+            {status}
+          </Dropdown.Item>
+        ))}
+      </DropdownButton>
+    );
+  };
 
   return (
     <div className="container mt-5">
       <div className="row">
-        <div className="col">
-          <h2>To Do</h2>
-          <ul className="list-group">
-            {tasksToDo.map(task => (
-              <li key={task.id} className="list-group-item">
-                {task.task} - {task.dueDate}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="col">
-          <h2>Doing</h2>
-          <ul className="list-group">
-            {tasksDoing.map(task => (
-              <li key={task.id} className="list-group-item">
-                {task.task} - {task.dueDate}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="col">
-          <h2>Ready</h2>
-          <ul className="list-group">
-            {tasksReady.map(task => (
-              <li key={task.id} className="list-group-item">
-                {task.task} - {task.dueDate}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {["To Do", "Doing", "Ready"].map((status, colIndex) => (
+          <div key={colIndex} className="col">
+            <h2>{status}</h2>
+            <ul className="list-group">
+              {tasks.filter(task => task.status === status).map(task => (
+                <li key={task.id} className="list-group-item d-flex justify-content-between align-items-center">
+                  {task.name} - {task.dueDate}
+                  <StatusDropdown currentStatus={task.status} taskId={task.id} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
   );
