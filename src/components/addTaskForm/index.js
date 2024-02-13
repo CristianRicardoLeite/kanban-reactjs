@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import api from '../../services/api';
+
 import { Card, Button } from 'react-bootstrap';
+import { addTask } from '@/src/services/getData';
 
 function AddTaskForm({ onTaskAdded }) {
   const [taskName, setTaskName] = useState('');
@@ -10,14 +11,8 @@ function AddTaskForm({ onTaskAdded }) {
     e.preventDefault();
 
     try {
-      const response = await api.post('/tasks', {
-        name: taskName,
-        dueDate: dueDate,
-        status: 'To Do',
-      });
-
-      onTaskAdded(response.data.data);
-
+      const newTask = await addTask(taskName, dueDate);
+      onTaskAdded(newTask);
       setTaskName('');
       setDueDate('');
     } catch (error) {
@@ -26,11 +21,11 @@ function AddTaskForm({ onTaskAdded }) {
   };
 
   return (
-    <Card className="m-5">
+    <Card className="m-5 col-lg-6 d-flex justify-content-center" >
       <Card.Body>
         <Card.Title>Adicionar Nova Tarefa</Card.Title>
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
+          <div className="mb-3" >
             <label htmlFor="taskName" className="form-label">Nome da Tarefa</label>
             <input
               type="text"

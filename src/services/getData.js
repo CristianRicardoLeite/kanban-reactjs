@@ -1,4 +1,5 @@
 import api from '../services/api'
+import formatDate from '../utils/formatDate';
 
 export const fetchTasks = async () => {
   try {
@@ -13,6 +14,17 @@ export const fetchTasks = async () => {
     console.error("Falha ao buscar tarefas:", error);
     return [];
   }
+};
+
+
+export const addTask = async (taskName, dueDate) => {
+  const formattedDate = formatDate(dueDate);
+  const response = await api.post('/tasks', {
+    name: taskName,
+    dueDate: formattedDate,
+    status: 'To Do',
+  });
+  return response.data.data;
 };
 
 export const updateTaskStatus = async (taskId, newStatus) => {

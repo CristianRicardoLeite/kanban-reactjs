@@ -29,13 +29,6 @@ function TaskManager() {
     loadAllTasks();
   }, []);
 
-  // const handleStatusChange = (taskId: string, newStatus: string) => {
-
-  //   const updatedTasks = tasks.map((task: Task) =>
-  //     task.id === taskId ? { ...task, status: newStatus } : task
-  //   );
-  //   setTasks(updatedTasks);
-  // };
   const handleStatusChange = (taskId: string, newStatus: string | null) => {
     if (newStatus === null) {
       setTasks(tasks.filter(task => task.id !== taskId));
