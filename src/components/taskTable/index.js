@@ -1,47 +1,25 @@
-import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import api from '../../services/api';
+
+import StatusDropdown from '@/src/components/statusDropDown';
+
+import getBackgroundColor from '@/src/utils/getBackground';
+import { FaTrashAlt } from "react-icons/fa";
+
+
+
 
 function TaskTable({ tasks, onStatusChange }) {
 
-  const getStatusOptions = (currentStatus) => {
-    const allStatuses = ["To Do", "Doing", "Ready"];
-    return allStatuses.filter(status => status !== currentStatus);
-  };
 
-
-  const updateTaskStatus = async (taskId, newStatus) => {
+  const handleDeleteTask = async (taskId) => {
     try {
-      const response = await api.put(`/tasks/${taskId}`, { status: newStatus });
-      console.log(response.data);
-      if (onStatusChange) onStatusChange(taskId, newStatus);
+      await deleteTask(taskId);
+      onStatusChange(taskId, null);
     } catch (error) {
-      console.error("Erro ao atualizar o status da tarefa:", error);
+      console.error("Erro ao deletar a tarefa:", error);
     }
   };
 
-  const StatusDropdown = ({ currentStatus, taskId }) => {
-    const options = getStatusOptions(currentStatus);
-    return (
-      <DropdownButton
-        id={`dropdown-button-drop-${taskId}`}
-        drop="down"
-        variant="secondary"
-        title={`${currentStatus}`}
-      >
-        {options.map((status, index) => (
-          <Dropdown.Item
-            key={index}
-            eventKey={index}
-            onClick={() => updateTaskStatus(taskId, status)}>
-            {status}
-          </Dropdown.Item>
-        ))}
-      </DropdownButton>
-    );
-  };
 
   return (
     <div className="container mt-5">
@@ -51,9 +29,10 @@ function TaskTable({ tasks, onStatusChange }) {
             <h2>{status}</h2>
             <ul className="list-group">
               {tasks.filter(task => task.status === status).map(task => (
-                <li key={task.id} className="list-group-item d-flex justify-content-between align-items-center">
+                <li key={task.id} className="list-group-item d-flex justify-content-between align-items-center" style={{ backgroundColor: getBackgroundColor(task.status) }}>
                   {task.name} - {task.dueDate}
-                  <StatusDropdown currentStatus={task.status} taskId={task.id} />
+                  <StatusDropdown currentStatus={task.status} taskId={task.id} onStatusChange={onStatusChange} />
+                  <FaTrashAlt style={{ cursor: 'pointer' }} />
                 </li>
               ))}
             </ul>
@@ -65,3 +44,5 @@ function TaskTable({ tasks, onStatusChange }) {
 }
 
 export default TaskTable;
+
+// onClick={() => handleDeleteTask(task.id)}

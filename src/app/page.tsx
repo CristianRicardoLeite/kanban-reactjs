@@ -1,50 +1,54 @@
 'use client'
 
-
 import { useState, useEffect } from 'react';
 import TaskTable from '../components/TaskTable';
 import AddTaskForm from '../components/AddTaskForm';
 import Header from '@/src/components/header'
 
-import api from '../services/api'
+import { deleteTask as deleteTaskService } from '../services/getData';
+import { fetchTasks } from '../services/getData'
+
+
 
 interface Task {
   id: string;
   name: string;
-  status: string;
+  status: string | null;
   dueDate: string;
 }
 
 function TaskManager() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<Task[]>([]);;
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await api.get('/tasks');
-        if (Array.isArray(response.data.data)) {
-          setTasks(response.data.data);
-        } else {
-          console.error("Formato de dados inesperado:", response.data);
-        }
-      } catch (error) {
-        console.error("Falha ao buscar tarefas:", error);
-      }
+    async function loadAllTasks() {
+      const fetchedTasks = await fetchTasks();
+      setTasks(fetchedTasks);
     };
 
-    fetchTasks()
-  }, [])
+    loadAllTasks();
+  }, []);
 
-  const handleStatusChange = (taskId: string, newStatus: string) => {
+  // const handleStatusChange = (taskId: string, newStatus: string) => {
 
-    const updatedTasks = tasks.map((task: Task) =>
-      task.id === taskId ? { ...task, status: newStatus } : task
-    );
-    setTasks(updatedTasks);
+  //   const updatedTasks = tasks.map((task: Task) =>
+  //     task.id === taskId ? { ...task, status: newStatus } : task
+  //   );
+  //   setTasks(updatedTasks);
+  // };
+  const handleStatusChange = (taskId: string, newStatus: string | null) => {
+    if (newStatus === null) {
+      setTasks(tasks.filter(task => task.id !== taskId));
+    } else {
+      const updatedTasks = tasks.map(task =>
+        task.id === taskId ? { ...task, status: newStatus } : task
+      );
+      setTasks(updatedTasks);
+    }
   };
 
   const handleTaskAdded = (newTask: Task) => {
-    setTasks([...tasks, newTask]);
+    setTasks(prevTasks => [...prevTasks, newTask]);
   };
 
   return (
