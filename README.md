@@ -1,4 +1,5 @@
 <h1 align="center">Aplicativo Kanban Front-end</h1>
+![Print da Pagina](/public/screencapture-localhost-3000-2024-02-14-15_08_22.png)
 <br/>
 Interface do usuário para um aplicativo Kanban, permitindo aos usuários criar, mover e excluir tarefas através de colunas "To Do", "Doing", e "Ready".
 <br/>
