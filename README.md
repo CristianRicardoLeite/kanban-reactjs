@@ -1,5 +1,5 @@
 <h1 align="center">Aplicativo Kanban Front-end</h1>
-!(public/screencapture-localhost-3000-2024-02-14-15_08_22.png)
+<img src="https://github.com/CristianRicardoLeite/kanban-reactjs/blob/master/public/screencapture-localhost-3000-2024-02-14-15_08_22.png?raw=true">
 <br/>
 Interface do usuário para um aplicativo Kanban, permitindo aos usuários criar, mover e excluir tarefas através de colunas "To Do", "Doing", e "Ready".
 <br/>
@@ -9,9 +9,11 @@ Este projeto é a interface do usuário para um aplicativo Kanban desenvolvido p
 <br/>
 <h3>Funcionalidades</h3>
 <br/>
-Adicionar Tarefas: Usuários podem adicionar tarefas à coluna "To Do".
+Adicionar Tarefas: Usuários podem adicionar tarefas à coluna qualquer uma das colunas.
 Mover Tarefas: As tarefas podem ser movidas entre as colunas.
 Excluir Tarefas: Tarefas podem ser excluídas.
+filtrar tarefas: Você pode adicionar um filtro para que mostre apenas a tarefa que contenha tal palavra.
+(Obs: As tarefas são ordenadas por data.)
 <br/>
 <h3>Tecnologias Utilizadas</h3>
 <br/>
