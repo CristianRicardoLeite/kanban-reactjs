@@ -17,15 +17,15 @@ Filtrar tarefas: Você pode adicionar um filtro para que mostre apenas a tarefa 
 <br/>
 <h3>Tecnologias Utilizadas</h3>
 <br/>
-Next.js,
-React.js,
-React Bootstrap,
+Next.js,<br/>
+React.js,<br/>
+React Bootstrap,<br/>
 Axios
 <br/>
 <h3>Instalação e Configuração</h3>
 <br/>
-git clone https://github.com/CristianRicardoLeite/kanban-reactjs.git
-cd seu-repositorio-kanban-frontend
+git clone https://github.com/CristianRicardoLeite/kanban-reactjs.git<br/>
+cd kaban-reactjs<br/>
 npm install
 <br/>
 <h3>Para iniciar a aplicação</h3>
