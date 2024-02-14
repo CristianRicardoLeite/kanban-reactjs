@@ -14,7 +14,6 @@ Adicionar Tarefas: Usuários podem adicionar tarefas à coluna qualquer uma das 
 Mover Tarefas: As tarefas podem ser movidas entre as colunas.
 Excluir Tarefas: Tarefas podem ser excluídas.
 filtrar tarefas: Você pode adicionar um filtro para que mostre apenas a tarefa que contenha tal palavra.
-(Obs: As tarefas são ordenadas por data.)
 <br/>
 <h3>Tecnologias Utilizadas</h3>
 <br/>
