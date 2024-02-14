@@ -17,14 +17,21 @@ export const fetchTasks = async () => {
 };
 
 
-export const addTask = async (taskName, dueDate) => {
-  const formattedDate = formatDate(dueDate);
-  const response = await api.post('/tasks', {
-    name: taskName,
+export const addTask = async (taskData) => {
+  const formattedDate = formatDate(taskData.dueDate);
+
+  const payload = {
+    ...taskData,
     dueDate: formattedDate,
-    status: 'To Do',
-  });
-  return response.data.data;
+  };
+
+  try {
+    const response = await api.post('/tasks', payload);
+    return response.data.data;
+  } catch (error) {
+    console.error("Falha ao adicionar tarefa:", error);
+    throw error;
+  }
 };
 
 export const updateTaskStatus = async (taskId, newStatus) => {
@@ -43,6 +50,18 @@ export const deleteTask = async (taskId) => {
     return response.data;
   } catch (error) {
     console.error("Erro ao deletar a tarefa:", error);
+    throw error;
+  }
+};
+
+export const fetchTasksWithSearch = async (searchTerm) => {
+  try {
+    const response = await api.get(`/tasks/search`, { params: { q: searchTerm } });
+
+    console.log(response)
+    return response.data.data;
+  } catch (error) {
+    console.error("Erro ao buscar tarefas com pesquisa:", error);
     throw error;
   }
 };

@@ -32,7 +32,7 @@ function TaskTable({ tasks, onStatusChange }) {
             <h2 className='d-flex justify-content-center rounded' style={{ backgroundColor: getBackgroundColor(status) }}>{status}</h2>
             <ul className="list-group">
               {
-                tasks.filter(task => task.status === status).map(task => (
+                Array.isArray(tasks) && tasks.filter(task => task.status === status).map(task => (
                   <div className='my-3 w-100'>
                     <Card key={task.id} className="list-group-item d-flex flex-row bd-highlight mb-3 justify-content-around" >
                       <div className='col flex-grow-1'>

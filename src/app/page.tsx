@@ -1,19 +1,19 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import TaskTable from '../components/TaskTable';
+import TaskTable from '../components/taskTable';
 import AddTaskForm from '../components/AddTaskForm';
+import TaskSearch from '../components/taskSearch'
 import Header from '@/src/components/header'
 
-import { deleteTask as deleteTaskService } from '../services/getData';
-import { fetchTasks } from '../services/getData'
+import { fetchTasks, addTask } from '../services/getData'
 
 
 
 interface Task {
   id: string;
   name: string;
-  status: string | null;
+  status: string;
   dueDate: string;
 }
 
@@ -40,15 +40,22 @@ function TaskManager() {
     }
   };
 
-  const handleTaskAdded = (newTask: Task) => {
-    setTasks(prevTasks => [...prevTasks, newTask]);
+  const handleAddTask = async (newTaskData: Task) => {
+    try {
+      await addTask(newTaskData);
+      const updatedTasks = await fetchTasks();
+      setTasks(updatedTasks);
+    } catch (error) {
+      console.error("Erro ao adicionar a tarefa:", error);
+    }
   };
 
   return (
     <div>
       <Header />
+      {/* <TaskSearch /> */}
       <TaskTable tasks={tasks} onStatusChange={handleStatusChange} />
-      <AddTaskForm onTaskAdded={handleTaskAdded} />
+      <AddTaskForm onTaskAdded={handleAddTask} />
     </div>
   );
 }
