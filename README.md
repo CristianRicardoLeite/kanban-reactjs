@@ -10,9 +10,9 @@ Este projeto é a interface do usuário para um aplicativo Kanban desenvolvido p
 <br/>
 <h3>Funcionalidades</h3>
 <br/>
-Adicionar Tarefas: Usuários podem adicionar tarefas à coluna qualquer uma das colunas.
-Mover Tarefas: As tarefas podem ser movidas entre as colunas.
-Excluir Tarefas: Tarefas podem ser excluídas.
+Adicionar Tarefas: Usuários podem adicionar tarefas à coluna qualquer uma das colunas.<br/>
+Mover Tarefas: As tarefas podem ser movidas entre as colunas.<br/>
+Excluir Tarefas: Tarefas podem ser excluídas.<br/>
 filtrar tarefas: Você pode adicionar um filtro para que mostre apenas a tarefa que contenha tal palavra.
 <br/>
 <h3>Tecnologias Utilizadas</h3>
