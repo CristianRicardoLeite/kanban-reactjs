@@ -29,12 +29,12 @@ function TaskTable({ tasks, onStatusChange }) {
       <div className="row">
         {["To Do", "Doing", "Ready"].map((status, colIndex) => (
           <div key={colIndex} className="col" >
-            <h2 className='d-flex justify-content-center rounded' style={{ backgroundColor: getBackgroundColor(status) }}>{status}</h2>
+            <h2 className='d-flex justify-content-center rounded p-3' style={{ backgroundColor: getBackgroundColor(status) }}>{status}</h2>
             <ul className="list-group">
               {
                 Array.isArray(tasks) && tasks.filter(task => task.status === status).map(task => (
                   <div className='my-3 w-100'>
-                    <Card key={task.id} className="list-group-item d-flex flex-row bd-highlight mb-3 justify-content-around" >
+                    <Card style={{ backgroundColor: getBackgroundColor(status) }} key={task.id} className="list-group-item d-flex flex-row bd-highlight mb-3 justify-content-around" >
                       <div className='col flex-grow-1'>
                         <h2>{task.name}</h2>
                         <h4>{task.dueDate}</h4>

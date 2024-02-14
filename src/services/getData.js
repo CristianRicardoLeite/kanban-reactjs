@@ -54,11 +54,11 @@ export const deleteTask = async (taskId) => {
   }
 };
 
-export const fetchTasksWithSearch = async (searchTerm) => {
+export const fetchTasksWithSearch = async (searchTerms) => {
   try {
-    const response = await api.get(`/tasks/search`, { params: { q: searchTerm } });
-
-    console.log(response)
+    const response = await api.get(`/tasks/search`, {
+      params: { query: JSON.stringify([searchTerms]) }
+    });
     return response.data.data;
   } catch (error) {
     console.error("Erro ao buscar tarefas com pesquisa:", error);

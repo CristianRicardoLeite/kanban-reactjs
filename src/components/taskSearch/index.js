@@ -1,34 +1,48 @@
 import { useState } from 'react';
-import { fetchTasksWithSearch } from '@/src/services/getData';
-import TaskTable from '@/src/components/taskTable';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
-function TaskSearchAndUpdate() {
+function TaskSearch({ onSearch, onUpdateSearchHistory }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [tasks, setTasks] = useState([]);
+  const [searchHistory, setSearchHistory] = useState([]);
 
-  const onUpdateTask = async () => {
-    try {
-      const searchedTasks = await fetchTasksWithSearch(searchTerm);
-      console.log(searchedTasks)
+  const handleSearch = () => {
+    onSearch(searchTerm);
+    setSearchHistory(prevHistory => [...prevHistory, searchTerm]);
+    setSearchTerm('');
+  };
 
-      setTasks(searchedTasks);
-    } catch (error) {
-      console.error("Erro ao buscar tarefas:", error);
-    }
+  const handleRemoveFilter = (index) => {
+    setSearchHistory(prevHistory => {
+      const updatedHistory = prevHistory.filter((_, i) => i !== index);
+      onUpdateSearchHistory(updatedHistory);
+      return updatedHistory;
+    });
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Pesquisar tarefa..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <button onClick={onUpdateTask}>Pesquisar</button>
-      <TaskTable tasks={tasks} />
-    </div>
+    <Container>
+      <Row className="justify-content-center align-items-center">
+        <Col>
+          <Form>
+            <Form.Group controlId="formSearch">
+              <Form.Control
+                type="text"
+                placeholder="Pesquisar tarefa..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </Form.Group>
+          </Form>
+          <Button variant="primary" onClick={handleSearch}>Pesquisar</Button>
+          <div>
+            {searchHistory.map((term, index) => (
+              <Button variant="secondary" onClick={() => handleRemoveFilter(index)} key={index}>{term} <span>x</span></Button>
+            ))}
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
-export default TaskSearchAndUpdate;
+export default TaskSearch;
