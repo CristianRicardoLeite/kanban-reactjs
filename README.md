@@ -1,5 +1,5 @@
 <h1 align="center">Aplicativo Kanban Front-end</h1>
-<img src="[https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png](https://github.com/CristianRicardoLeite/kanban-reactjs/blob/master/public/screencapture-localhost-3000-2024-02-14-15_08_22.png)" width="100vw" height="100">
+<img src="[public/screencapture-localhost-3000-2024-02-14-15_08_22.png)" width="100vw" height="100">
 <br/>
 Interface do usuário para um aplicativo Kanban, permitindo aos usuários criar, mover e excluir tarefas através de colunas "To Do", "Doing", e "Ready".
 <br/>
